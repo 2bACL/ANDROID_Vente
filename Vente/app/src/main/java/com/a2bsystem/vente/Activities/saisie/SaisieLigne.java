@@ -544,7 +544,9 @@ public class SaisieLigne extends AppCompatActivity {
             try {
                 poidTotal = poidTotal +  Double.parseDouble(ePdsNet.getText().toString());
             }
-            catch (Exception e) {}
+            catch (Exception e) {
+
+            }
 
 
             ePdsNet.setText(poidTotal+"");
@@ -1587,6 +1589,7 @@ public class SaisieLigne extends AppCompatActivity {
 
         // Call API JEE
 
+        System.out.println(URL);
         GetFields task = new GetFields();
         task.execute(new String[] { URL });
     }
@@ -1804,6 +1807,7 @@ public class SaisieLigne extends AppCompatActivity {
                     fillFields();
 
                 } catch (Exception ex) {
+                    ex.printStackTrace();
                     fillFields();
                 }
             }

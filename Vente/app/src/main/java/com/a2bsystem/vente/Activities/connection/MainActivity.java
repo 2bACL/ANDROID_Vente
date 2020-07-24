@@ -55,8 +55,8 @@ public class MainActivity extends AppCompatActivity {
         eMdp = findViewById(R.id.main_mdp);
         pbbar = findViewById(R.id.pbbar);
         pbbar.setVisibility(View.GONE);
-        eUser.setText("acl");
-        eMdp.setText("acl");
+        eUser.setText("");
+        eMdp.setText("");
     }
 
     public void initListeners() {
@@ -247,7 +247,10 @@ public class MainActivity extends AppCompatActivity {
                     }
 
 
-                } catch (Exception ex) { }
+                } catch (Exception ex) {
+                    Helper.displayPA = 1;
+                    Helper.BlocagePUifDLCsup = 0;
+                }
 
             }
         }
