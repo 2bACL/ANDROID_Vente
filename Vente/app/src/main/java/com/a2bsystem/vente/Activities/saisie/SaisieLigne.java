@@ -2189,8 +2189,10 @@ public class SaisieLigne extends AppCompatActivity {
                         orp.setArtnr(jsonArray.getJSONObject(0).getString("artnr"));
                         orp.setLib(jsonArray.getJSONObject(0).getString("lib"));
 
-                        String dlc = jsonArray.getJSONObject(0).getString("DLC").substring(0,11);
-                        orp.setDLC(dlc.substring(8,10) + "/" + dlc.substring(5,7) + "/" + dlc.substring(0,4));
+                        if(jsonArray.getJSONObject(0).getString("DLC").length() > 10){
+                            String dlc = jsonArray.getJSONObject(0).getString("DLC").substring(0,11);
+                            orp.setDLC(dlc.substring(8,10) + "/" + dlc.substring(5,7) + "/" + dlc.substring(0,4));
+                        }
 
                         LockIfDLCsup();
 
@@ -2246,7 +2248,8 @@ public class SaisieLigne extends AppCompatActivity {
                         });
                     }
 
-                } catch (Exception ex) { System.out.println(ex);}
+                } catch (Exception ex) { System.out.println(ex);
+                ex.printStackTrace();}
 
                 InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
