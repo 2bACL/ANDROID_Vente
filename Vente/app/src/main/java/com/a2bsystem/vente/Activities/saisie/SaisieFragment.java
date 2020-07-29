@@ -513,6 +513,7 @@ public class SaisieFragment extends Fragment {
         //Verouillage de l'interface
         lockUI();
 
+
         // Call API JEE
         GetClients task = new GetClients();
         task.execute(new String[] { URL });
@@ -525,7 +526,6 @@ public class SaisieFragment extends Fragment {
         params.put("Blocage", bloque);
         String URL = Helper.GenereateURI(getActivity(), params, "getfactimpayes");
 
-        System.out.println(URL);
         //Verouillage de l'interface
         lockUI();
 

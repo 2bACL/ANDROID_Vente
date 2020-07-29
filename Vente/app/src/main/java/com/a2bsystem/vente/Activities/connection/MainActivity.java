@@ -248,6 +248,14 @@ public class MainActivity extends AppCompatActivity {
 
 
                 } catch (Exception ex) {
+                    ex.printStackTrace();
+                    showError("Connexion impossible", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            eUser.setText("");
+                            eMdp.setText("");
+                        }
+                    });
                     Helper.displayPA = 1;
                     Helper.BlocagePUifDLCsup = 0;
                 }

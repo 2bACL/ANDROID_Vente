@@ -375,7 +375,13 @@ public class SaisieLigne extends AppCompatActivity {
 
         if( orp.getPdsNetU() != 0 && type == 0) {
 
-            orp.setPdsNet(orp.getColis() * orp.getPdsNetU());
+            if(orp.getModeSaisie().equalsIgnoreCase("poids net unitaire")){
+                orp.setPdsNet(orp.getPdsNetU());
+            }
+            else {
+                orp.setPdsNet(orp.getColis() * orp.getPdsNetU());
+            }
+
         }
         else if (orp.getColis() != 0){
             orp.setPdsNetU(orp.getPdsNet() / orp.getColis());
@@ -549,7 +555,7 @@ public class SaisieLigne extends AppCompatActivity {
             }
 
 
-            ePdsNet.setText(poidTotal+"");
+            ePdsNet.setText(poidTotal + "");
             showPoids();
 
             if(editText == ePu){
@@ -577,6 +583,7 @@ public class SaisieLigne extends AppCompatActivity {
             }
 
             poids = 0;
+            poidTotal = 0.0;
         }
         else if (poids == 0)
         {
@@ -647,7 +654,7 @@ public class SaisieLigne extends AppCompatActivity {
 
                 //Si c'est un scan
                 if(eArtnr.getText().toString().length() > 2 &&
-                        (eArtnr.getText().toString().substring(0,3).equalsIgnoreCase("020") || eArtnr.getText().toString().substring(0,3).equalsIgnoreCase("029"))) {
+                        (eArtnr.getText().toString().substring(0,2).equalsIgnoreCase("01") || eArtnr.getText().toString().substring(0,2).equalsIgnoreCase("02"))) {
                     setParseGTIN();
                 }
                 else {
@@ -1589,7 +1596,6 @@ public class SaisieLigne extends AppCompatActivity {
 
         // Call API JEE
 
-        System.out.println(URL);
         GetFields task = new GetFields();
         task.execute(new String[] { URL });
     }
@@ -1610,7 +1616,6 @@ public class SaisieLigne extends AppCompatActivity {
         //Verouillage de l'interface
         lockUI();
 
-        System.out.println("ccc " + URL);
         // Call API JEE
 
         GetLot task = new GetLot();
@@ -1622,8 +1627,6 @@ public class SaisieLigne extends AppCompatActivity {
         params.put("field",eArtnr.getText().toString().replace("'","''"));
         params.put("lagstalle",Helper.depot);
         String URL = Helper.GenereateURI(SaisieLigne.this, params, "getarticle");
-
-        System.out.println("aaa " + URL);
 
         //Verouillage de l'interface
         lockUI();
@@ -1639,11 +1642,9 @@ public class SaisieLigne extends AppCompatActivity {
         scan = true;
 
         RequestParams params = Helper.GenerateParams(SaisieLigne.this);
-        params.put("scan",eArtnr.getText().toString().substring(0, eArtnr.getText().toString().length() - 1));
+        params.put("scan",eArtnr.getText().toString());
 
         String URL = Helper.GenereateURI(SaisieLigne.this, params, "parsegtin");
-
-        System.out.println(URL);
 
         //Verouillage de l'interface
         lockUI();
@@ -1665,7 +1666,6 @@ public class SaisieLigne extends AppCompatActivity {
         params.put("pu",orp.getPu());
 
         String URL = Helper.GenereateURI(SaisieLigne.this, params, "updateorp");
-
 
         //Verouillage de l'interface
         lockUI();
@@ -1902,11 +1902,14 @@ public class SaisieLigne extends AppCompatActivity {
                             });
                         }
                         else {
+
                             orp.setLib(jsonArray.getJSONObject(0).getString("Libelle").trim());
                             orp.setArtnr(jsonArray.getJSONObject(0).getString("Artnr").trim());
                             orp.setDLC(jsonArray.getJSONObject(0).getString("DLC"));
                             orp.setPdsNet(orp.getPdsNet() + jsonArray.getJSONObject(0).getDouble("Poids"));
 
+                            //eArtnr.setText(orp.getArtnr());
+                            //setGetLot(1);
                             LockIfDLCsup();
 
                         }
@@ -2248,8 +2251,9 @@ public class SaisieLigne extends AppCompatActivity {
                         });
                     }
 
-                } catch (Exception ex) { System.out.println(ex);
-                ex.printStackTrace();}
+                } catch (Exception ex) {
+                ex.printStackTrace();
+                }
 
                 InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
