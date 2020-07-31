@@ -1687,6 +1687,7 @@ public class SaisieLigne extends AppCompatActivity {
         else {
             params.put("ua1",eColis.getText().toString());
         }
+
         params.put("ua3",ePieces.getText().toString());
         params.put("ua5",ePdsBrut.getText().toString());
         params.put("ua6",eTare.getText().toString());

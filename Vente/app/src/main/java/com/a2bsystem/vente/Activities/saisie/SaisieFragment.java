@@ -393,7 +393,12 @@ public class SaisieFragment extends Fragment {
 
                         eClient.setText("");
                         eClient.requestFocus();
-                        setGetFactImpayes();
+                        try {
+                            vente.setCode(jsonArray.getJSONObject(0).getString("code"));
+                            setGetFactImpayes();
+                        }
+                        catch(Exception e){}
+
                     }
                 });
                 break;
@@ -410,7 +415,7 @@ public class SaisieFragment extends Fragment {
         ContextThemeWrapper themedContext = new ContextThemeWrapper(getActivity(), android.R.style.Theme_Holo_Light_Dialog_NoActionBar);
         AlertDialog.Builder builderSingle = new AlertDialog.Builder(themedContext);
         builderSingle.setTitle("Factures impayées");
-/*
+        /*
         final ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.select_dialog_singlechoice);
         for(int i = 0; i < factures.size(); i++){
             arrayAdapter.add(getDate(factures.get(i).getDateEch())+ " " + factures.get(i).getMntFact().substring(0,factures.get(i).getMntFact().length() -2) + "€");
